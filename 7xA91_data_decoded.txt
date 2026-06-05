@@ -1,0 +1,21 @@
+DECODING IN PROGRESS...
+
+Original file: 7xA91_data.lua (Base64 Encoded Lua Bytecode)
+Size: 116,373 bytes
+Encoding: Base64 + Lua Bytecode
+
+STATUS: File is in Lua 5.1 Bytecode format (compiled binary)
+This is a compiled/obfuscated Lua script, typically used in games or applications to hide source code.
+
+ANALYSIS:
+- The file contains emoji text and encoded data
+- Links found:
+  * youtube.com/posyamq
+  * t.me/boglua
+  * vk.com/dtskprng
+  * discord/reversozez1337
+
+NOTE: This appears to be related to a game modification or bot script.
+
+For full decompilation, a specialized Lua bytecode decompiler is needed.
+Recommended: unluac or luadec
