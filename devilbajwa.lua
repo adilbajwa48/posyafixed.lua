@@ -1644,7 +1644,7 @@ criminal = {
     {"💀 Kurgan Gang", 2285, 1369, 11},
     {"🖤 Black Market", -2249, 245, 24.5},
     {"👿 Orekhov Gang", 481.89, 742.55, 12.00},
-    {"⚔️Sawmill bizzwar", -1043.95, -2464.63, 28.48},
+    {"⚔️Sawmill bizzwar", -1105.34, -2471.14, 28.52},
     {"🔪Fam war enternce", 1503.80, -297.03, 7.34}
 }
 
