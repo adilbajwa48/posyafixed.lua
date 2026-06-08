@@ -1871,12 +1871,12 @@ function exitScript()
         AdilAimbotRunning = false
         AdilSmoothAimbotOff()
     end
-    print("╔══════════════════════════════════════════════════╗")
-    print("║                                                  ║")
-    print("║          GRAND MOBILE SCRIPT - Adil           ║")
-    print("║                    EXITING...                    ║")
-    print("║                                                  ║")
-    print("╚══════════════════════════════════════════════════╝")
+    print("╔═══════════════════════════╗")
+    print("║                               ║")
+    print("║     GRAND MOBILE SCRIPT - Adil ║")
+    print("║    EXITING...          ║")
+    print("║                               ║")
+    print("╚══════════════════════════╝")
     gg.setVisible(true)
     os.exit()
     gg.exit()
@@ -1925,7 +1925,7 @@ end
 --║                      SCRIPT START                                 ║
 --╚═══════════════════════════════════════════════════════════════════╝
 
-toast.success("╔══════════════════════════════════════════════════╗\n║      🔥 Adil BAJWA 👿 SCRIPT LOADED 🔥       ║\n║              VIP EDITION READY                   ║\n╚══════════════════════════════════════════════════╝", 4)
+toast.success("╔═════════════════╗\n║  🔥 Adil BAJWA 👿 SCRIPT LOADED 🔥  ║\n╚═══════════════════╝", 4)
 gg.sleep(1500)
 
 while true do
