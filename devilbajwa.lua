@@ -543,12 +543,20 @@ function toggleSpeedV2()
 end
 
 function toggleHighJump()
-    local oldState = hjj == "✅"
+    local enabled = hjj == "✅"
+
     Z.S("4798022456217645875", Q, Cd|O)
-    Z.W(oldState and "-150" or "-0.10000000149", -0x4, F)
+    Z.W(enabled and "-0.10000000149" or "-150", -0x4, F)
     gg.clearResults()
-    hjj = oldState and "✅" or "❌"
-    if oldState then showSuccess() else showDisabled() end
+
+    hjj = enabled and "❌" or "✅"
+
+    if enabled then
+        showDisabled()
+    else
+        showSuccess()
+    end
+
     playerMenu()
 end
 
