@@ -2,8 +2,6 @@ gg.setVisible(false)
 
 gg.alert("Wellcome ❤️ to Adil Bajwa 👿 English Script This script is totally free 🎉 so avoid scammers ☠️ my discord @adilbajwa03" ) 
 
-
-
 --╔═════════════════════════╗
 --║                                        ║
 --║        █████╗ ██████╗ ██╗██╗         ██████╗  █████╗      ║
@@ -25,12 +23,29 @@ gg.clearResults()
 gg.clearList()
 
 --╔════════════════════════╗
---║    SPECIAL EFFECTS                               ║
---╚═══════════════════════╝
+--║ GLOBAL ERROR & TOAST FIX ║
+--╚════════════════════════╝
+
+-- Fix missing showError function called at line 170
+function showError(msg)
+    gg.toast("❌ Error: " .. tostring(msg or "Failed execution"))
+end
+
+-- Fix toast object compatibility
+toast = {
+    success = function(msg) gg.toast(msg) end,
+    hint = function(msg) gg.toast(msg) end,
+    error = function(msg) gg.toast(msg) end
+}
+
+--╔════════════════════════╗
+--║    SPECIAL EFFECTS     ║
+--╚════════════════════════╝
 
 function showSuccess() 
-    toast.success("╔═══════════════╗\n║      ✅ ACTIVATED SUCCESSFULLY ✅     ║\n║  BY Adil    ║\n╚══════════════════╝") 
+    gg.toast("╔═══════════════╗\n║      ✅ ACTIVATED SUCCESSFULLY ✅     ║\n║  BY Adil    ║\n╚══════════════════╝") 
 end
+
 --╔══════════════════╗
 --║GLOBAL VARIABLES & SETUP                       
 --╚═════════════════╝
@@ -67,7 +82,7 @@ X = 8         -- XOR
 Byte = 1      -- Byte Type
 
 --╔════════════════════════╗
---║        CORE FUNCTIONS.      l  ║
+--║        CORE FUNCTIONS   ║
 --╚════════════════════════╝
 
 function setvalue(add, value, flags, dj)
@@ -119,7 +134,7 @@ end
 function Z.bc()
     data = {}
     if Result == nil or #Result == 0 then
-        toast.hint("╔══════════════════════╗\n║ 🔍 NO VALUES FOUND 🔍 ║\n╚═════════════════════╝")
+        gg.toast("╔══════════════════════╗\n║ 🔍 NO VALUES FOUND 🔍 ║\n╚═════════════════════╝")
     else
         for i, v in pairs(Result) do
             data[#data + 1] = v.address
@@ -128,7 +143,6 @@ function Z.bc()
     end
     Result = nil
 end
-
 function Z.W(nn, off, ty, dj)
     if (Result) then Z.bc() end
     if #data > 0 then
