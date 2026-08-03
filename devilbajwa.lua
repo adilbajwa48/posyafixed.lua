@@ -1835,9 +1835,122 @@ function exitScript()
     gg.exit()
 end
 
---╔══════════════════╗
---║    MAIN MENU           ║
---╚═════════════════╝
+--═══════════════════════════════════════════════════════════════════
+-- 💜 ADIL FPS BOOSTER INTEGRATED VARIABLES & FUNCTIONS
+--═══════════════════════════════════════════════════════════════════
+
+fps120 = false
+pingBoost = false
+removeLag = false
+smoothGame = false
+ultraBoost = false
+
+local F = 16  -- Float
+local D = 4   -- Dword
+local Ca = 4  -- C++ Data a
+local O = -2080896 -- Other
+
+local function msg(s) gg.toast("💜 Adil ➤ "..s) end
+local function msgOff(s) gg.toast("🖤 OFF ➤ "..s) end
+
+local function searchNumber(value, flags, ranges)
+    gg.clearResults()
+    gg.setRanges(ranges)
+    gg.searchNumber(value, flags)
+    return gg.getResults(gg.getResultCount())
+end
+
+local function setValue(address, value, flags, freeze)
+    local t = {{address = address, value = value, flags = flags}}
+    if freeze then
+        t[1].freeze = true
+        gg.addListItems(t)
+    else
+        gg.setValues(t)
+    end
+end
+
+-- FPS Booster Functions
+function boost120FPS()
+    fps120 = not fps120
+    if fps120 then
+        local success = false
+        local targets = {"30", "60", "90"}
+        for _, val in ipairs(targets) do
+            local res = searchNumber(val, D, Ca|O)
+            if res and #res > 0 then
+                for i = 1, math.min(20, #res) do setValue(res[i].address, 120, D, true) end
+                success = true
+            end
+        end
+        if success then msg("✅ 120 FPS ACTIVATED") else msg("⚠️ NO FPS VALUES FOUND") fps120 = false end
+    else
+        gg.clearList()
+        msgOff("120 FPS OFF")
+    end
+    gg.clearResults()
+    fpsBoosterMenu()
+end
+
+function boostPing()
+    pingBoost = not pingBoost
+    if pingBoost then
+        local res = searchNumber("10000", D, Ca|O)
+        if res and #res > 0 then
+            for i = 1, math.min(10, #res) do setValue(res[i].address, 10, D, true) end
+            msg("✅ PING BOOST ACTIVATED")
+        else
+            msg("⚠️ NO NETWORK VALUES FOUND")
+            pingBoost = false
+        end
+    else
+        gg.clearList()
+        msgOff("PING BOOST OFF")
+    end
+    gg.clearResults()
+    fpsBoosterMenu()
+end
+
+function removeGameLag()
+    removeLag = not removeLag
+    if removeLag then
+        local res = searchNumber("1.0", F, Ca|O)
+        if res and #res > 0 then
+            for i = 1, math.min(30, #res) do setValue(res[i].address, 0.3, F, true) end
+            msg("✅ LAG REMOVED")
+        else
+            msg("⚠️ NO VALUES FOUND")
+            removeLag = false
+        end
+    else
+        gg.clearList()
+        msgOff("LAG REMOVAL OFF")
+    end
+    gg.clearResults()
+    fpsBoosterMenu()
+end
+
+function fpsBoosterMenu()
+    local c = gg.choice({
+        "💜 120 FPS BOOST     " .. (fps120 and "✅ ON" or "❌ OFF"),
+        "🌐 PING BOOST        " .. (pingBoost and "✅ ON" or "❌ OFF"),
+        "🧹 REMOVE LAG        " .. (removeLag and "✅ ON" or "❌ OFF"),
+        "🔙 BACK TO MAIN MENU"
+    }, nil, "⚡ ADIL FPS BOOSTER ULTRA ⚡")
+    
+    if not c then return end
+    if c == 1 then boost120FPS()
+    elseif c == 2 then boostPing()
+    elseif c == 3 then removeGameLag()
+    elseif c == 4 then mainMenu()
+    end
+end
+
+--═══════════════════════════════════════════════════════════════════
+-- ╔══════════════════╗
+-- ║    MAIN MENU     ║
+-- ╚══════════════════╝
+--═══════════════════════════════════════════════════════════════════
 
 function mainMenu()
     menuuuvis = 0
@@ -1850,6 +1963,7 @@ function mainMenu()
         "║        📍 TELEPORT          ║",
         "╠════════════════════╣",
         "║        🎯 AIMBOT Adil       ║",
+        "║        ⚡ FPS BOOSTER       ║",  -- New Option Added Here
         "╠═══════════════════╣",
         "║        👑 DEVELOPER      ║",
         "║        💝 SUPPORT           ║",
@@ -1866,13 +1980,15 @@ function mainMenu()
     elseif choice == 5 then visualMenu()
     elseif choice == 6 then tpMenu()
     elseif choice == 8 then AdilAimMenu()
-    elseif choice == 10 then devMenu()
-    elseif choice == 11 then supportMenu()
-    elseif choice == 13 then exitScript()
+    elseif choice == 9 then fpsBoosterMenu()  -- FPS Booster Sub-menu Trigger
+    elseif choice == 11 then devMenu()
+    elseif choice == 12 then supportMenu()
+    elseif choice == 14 then exitScript()
     end
     
     menuuuvis = -1
 end
+
 
 --╔═══════════════════════════════════════════════════════════════════╗
 --║                      SCRIPT START                                             ║
