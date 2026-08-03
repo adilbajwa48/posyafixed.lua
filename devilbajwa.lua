@@ -269,234 +269,179 @@ frzsl7 = "❌"
 --╔══════════════════════╗
 --║    Adil AIMBOT SYSTEM        ║
 --╚══════════════════════╝
-AdilAimbotRunning = false
-AdilSelectedStrength = 3 -- Default to NORMAL
-AdilOldAimValue = "1042536202"
+-- Helper function to format toggle status (ON/OFF)
+function TOG(state)
+    if state then
+        return " [ON]"
+    else
+        return " [OFF]"
+    end
+end
 
--- ناموں اور ویلیوز کی لسٹ کو بالکل برابر کر دیا گیا ہے تاکہ انڈیکس میچ کرے
-AdilStrengthNames = {
-    "🌟 EXTRA LIGHT ",
-    "⭐⭐ LIGHT ",
-    "⭐⭐⭐ NORMAL ",
-    "⭐⭐⭐⭐ STRONG ",
-    "⭐⭐⭐⭐⭐ ULTRA "
+-- Table defining the new aim options (Name 'n', Value 'v', State 's')
+aim_st = {
+    {n = "Ultra Legit", v = "1051999999", s = false},
+    {n = "Legit",       v = "1055999999", s = false},
+    {n = "Medium",      v = "1076999999", s = false},
+    {n = "Ultra",       v = "1080999999", s = false},
+    {n = "HvH",         v = "1089999999", s = false}
 }
 
-AdilStrengthValues = {
-    "1042536202",
-    "1048536202",
-    "1051999999",
-    "1055999999",
-    "1076999999"
-}
-
--- فرض کیا کہ Z.S اور Result آپ کے گلوبل سرچ فنکشنز کا حصہ ہیں
-function AdilSmoothAimbot()
-    if type(Z) == "table" and Z.S then
-        Z.S(AdilOldAimValue, D, Ca|O)
-    else
-        gg.clearResults()
-        gg.searchNumber(AdilOldAimValue, D)
-    end
-    
-    local count = gg.getResultCount()
-    if count > 0 then
-        gg.editAll(AdilStrengthValues[AdilSelectedStrength], D)
-        gg.clearResults()
-        return true
-    end
-    return false
-end
-
-function AdilSmoothAimbotOff()
-    if type(Z) == "table" and Z.S then
-        Z.S(AdilStrengthValues[AdilSelectedStrength], D, Ca|O)
-    else
-        gg.clearResults()
-        gg.searchNumber(AdilStrengthValues[AdilSelectedStrength], D)
-    end
-    
-    local count = gg.getResultCount()
-    if count > 0 then
-        gg.editAll(AdilOldAimValue, D)
-        gg.clearResults()
-        return true
-    end
-    return false
-end
-
-function AdilStartAimbot()
-    if AdilAimbotRunning then return end
-    
-    AdilAimbotRunning = true
-    gg.setVisible(false)
-    
-    gg.toast("🎯 Adil AIMBOT ACTIVATED\nStrength: " .. AdilStrengthNames[AdilSelectedStrength])
-    
-    local tick = 0
-    while AdilAimbotRunning do
-        if gg.isVisible() then
-            gg.setVisible(false)
-            AdilAimbotRunning = false
-            break
+function aimnew()
+    local inNewAim = true
+    while inNewAim do
+        gg.setVisible(false)
+        local names = {}
+        for i, v in ipairs(aim_st) do 
+            table.insert(names, "🔹 " .. v.n .. TOG(v.s)) 
         end
+        table.insert(names, "⬅️ Back")
         
-        if tick % 2 == 0 then
-            AdilSmoothAimbot()
-        end
-        
-        tick = tick + 1
-        gg.sleep(10)
-        
-        if tick > 1000 then tick = 0 end
-    end
-    
-    AdilSmoothAimbotOff()
-    gg.setVisible(true)
-    gg.toast("🛑 Adil AIMBOT STOPPED")
-    AdilAimbotRunning = false
-    AdilAimMenu()
-end
-
-function AdilStartGrabAimbot()
-    if AdilAimbotRunning then return end
-    
-    AdilAimbotRunning = true
-    gg.setVisible(false)
-    gg.toast("🫴 GRAB AIMBOT ACTIVATED\nHold Aim Button To Activate")
-    
-    local isAiming = false
-    local aimValue = AdilOldAimValue
-    
-    while AdilAimbotRunning do
-        if gg.isVisible() then
-            gg.setVisible(false)
-            AdilAimbotRunning = false
-            break
-        end
-        
-        if type(Z) == "table" and Z.S then Z.S(aimValue, D, Ca|O) else gg.searchNumber(aimValue, D) end
-        local count = gg.getResultCount()
-        
-        if count > 0 then
-            local results = gg.getResults(1)
-            local currentVal = tostring(results[1].value)
+        local r = gg.choice(names, nil, '[ New Aim ]')
+        if r and r <= #aim_st then
+            aim_st[r].s = not aim_st[r].s
+            local old = "1042536202"
             
-            if currentVal ~= aimValue then
-                if not isAiming then
-                    if type(Z) == "table" and Z.S then Z.S(AdilOldAimValue, D, Ca|O) else gg.searchNumber(AdilOldAimValue, D) end
-                    if gg.getResultCount() > 0 then
-                        gg.editAll(AdilStrengthValues[AdilSelectedStrength], D)
-                        isAiming = true
-                    end
+            gg.clearResults()
+            if aim_st[r].s then
+                gg.setRanges(gg.REGION_C_ALLOC | gg.REGION_OTHER)
+                gg.searchNumber(old, gg.TYPE_DWORD)
+                if gg.getResultCount() > 0 then
+                    local res = gg.getResults(10000)
+                    gg.editAll(aim_st[r].v, gg.TYPE_DWORD)
+                    gg.toast("✅ ACTIVATED")
+                else
+                    gg.toast("❌ VALUE NOT FOUND")
                 end
-                aimValue = currentVal
             else
-                if isAiming then
-                    if type(Z) == "table" and Z.S then Z.S(AdilStrengthValues[AdilSelectedStrength], D, Ca|O) else gg.searchNumber(AdilStrengthValues[AdilSelectedStrength], D) end
-                    if gg.getResultCount() > 0 then
-                        gg.editAll(AdilOldAimValue, D)
-                        isAiming = false
-                    end
+                gg.setRanges(gg.REGION_C_ALLOC | gg.REGION_OTHER)
+                gg.searchNumber(aim_st[r].v, gg.TYPE_DWORD)
+                if gg.getResultCount() > 0 then
+                    local res = gg.getResults(10000)
+                    gg.editAll(old, gg.TYPE_DWORD)
+                    gg.toast("💤 DEACTIVATED")
+                else
+                    gg.toast("❌ VALUE NOT FOUND")
                 end
             end
             gg.clearResults()
+        elseif r == #aim_st + 1 then 
+            break
+        elseif r == nil then 
+            inNewAim = false 
         end
-        gg.sleep(50)
     end
-    
-    if isAiming then
-        if type(Z) == "table" and Z.S then Z.S(AdilStrengthValues[AdilSelectedStrength], D, Ca|O) else gg.searchNumber(AdilStrengthValues[AdilSelectedStrength], D) end
-        gg.editAll(AdilOldAimValue, D)
-        gg.clearResults()
-    end
-    
-    gg.setVisible(true)
-    gg.toast("🛑 GRAB AIMBOT STOPPED")
-    AdilAimbotRunning = false
-    AdilAimMenu()
 end
 
-function AdilSelectStrength()
-    local menuList = {}
-    for i = 1, #AdilStrengthNames do
-        if i == AdilSelectedStrength then
-            menuList[i] = AdilStrengthNames[i] .. "  [ ACTIVE ✅ ]"
-        else
-            menuList[i] = AdilStrengthNames[i]
-        end
+function aimold()
+    local aims = {
+        {"Ultra Legit", "1051999999", "1042536202"}, 
+        {"Legit",       "1055999999", "1042536202"}, 
+        {"Medium",      "1076999999", "1042536202"}, 
+        {"Ultra",       "1080999999", "1042536202"}, 
+        {"HvH",         "1089999999", "1042536202"}
+    }
+    local names = {}
+    for i, v in ipairs(aims) do 
+        table.insert(names, "🔹 " .. v[1]) 
     end
-    table.insert(menuList, "━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    table.insert(menuList, "🔙 RETURN TO AIMBOT MENU")
+    table.insert(names, "⬅️ Back")
     
-    local choice = gg.choice(menuList, nil, "⚙️ SELECT AIMBOT STRENGTH")
-    
-    if not choice or choice == #menuList then
-        AdilAimMenu()
+    local s = gg.choice(names, nil, '[ Old Aim ]')
+    if s and s <= #aims then
+        gg.setVisible(false)
+        gg.toast("Running... To turn off, click the GG icon")
+        for i = 1, 10000 do
+            if gg.isVisible() then break end
+            gg.clearResults()
+            gg.setRanges(gg.REGION_C_ALLOC | gg.REGION_OTHER)
+            gg.searchNumber(aims[s][3], gg.TYPE_DWORD)
+            if gg.getResultCount() > 0 then
+                gg.getResults(10000)
+                gg.editAll(aims[s][2], gg.TYPE_DWORD)
+            end
+            gg.clearResults()
+            
+            for j = 1, 20 do
+                if gg.isVisible() then
+                    gg.setVisible(false)
+                    gg.clearResults()
+                    gg.setRanges(gg.REGION_C_ALLOC | gg.REGION_C_DATA | gg.REGION_OTHER)
+                    gg.searchNumber(aims[s][2], gg.TYPE_DWORD)
+                    if gg.getResultCount() > 0 then
+                        gg.getResults(10000)
+                        gg.editAll(aims[s][3], gg.TYPE_DWORD)
+                    end
+                    gg.clearResults()
+                    gg.toast("Deactivated, returning to menu")
+                    return aimold()
+                end
+                gg.sleep(200)
+            end 
+        end
+        gg.setVisible(true)
+        gg.clearResults()
+    elseif s == #aims + 1 then 
         return
     end
-    
-    if choice <= #AdilStrengthNames then
-        AdilSelectedStrength = choice
-        gg.toast("Selected: " .. AdilStrengthNames[choice])
-    end
-    
-    AdilSelectStrength()
 end
 
 function AdilAimMenu()
-    local choice = gg.choice({
-        "🎯 START SMOOTH AIMBOT",
-        "🫴 START GRAB AIMBOT",
-        "⚙️ CHANGE STRENGTH (Current: " .. AdilStrengthNames[AdilSelectedStrength] .. ")",
-        "🛑 STOP AIMBOT",
-        "🔙 BACK TO MAIN MENU"
-    }, nil, "🔥 Adil BAJWA AIMBOT VIP 🔥")
-    
-    if not choice then 
-        if mainMenu then mainMenu() else os.exit() end 
-        return
-    end
-    
-    if choice == 1 then
-        AdilStartAimbot()
-    elseif choice == 2 then
-        AdilStartGrabAimbot()
-    elseif choice == 3 then
-        AdilSelectStrength()
-    elseif choice == 4 then
-        if AdilAimbotRunning then
-            AdilAimbotRunning = false
-            AdilSmoothAimbotOff()
-            gg.toast("🛑 AIMBOT STOPPED")
-        else
-            gg.toast("⚠️ AIMBOT NOT RUNNING")
+    local inAimMenu = true
+    while inAimMenu do
+        gg.setVisible(false)
+        local aChoice = gg.choice({
+            "🔹 Old Aim Models",
+            "🔹 New Aim Models",
+            "⬅️ Back to Main Menu"
+        }, nil, "🎯 Aim Menu 🎯")
+        
+        if aChoice == 1 then 
+            aimold()
+        elseif aChoice == 2 then 
+            aimnew()
+        elseif aChoice == 3 then 
+            break
+        elseif aChoice == nil then 
+            inAimMenu = false 
         end
-        AdilAimMenu()
-    elseif choice == 5 then
-        if mainMenu then mainMenu() else os.exit() end
     end
 end
---╔═════════════════════════════════════╗
---║                    PLAYER MODS                       ║
---╚═════════════════════════════════════╝
 
+--╔═════════════════════════════════════╗
+--║                    PLAYER MODS                                                          ║
+--╚═════════════════════════════════════╝
+function showSuccess()
+    gg.toast("✅ ACTIVATED")
+end
+
+function showDisabled()
+    gg.toast("💤 DEACTIVATED")
+end
+
+function showError()
+    gg.toast("❌ VALUE NOT FOUND / ERROR")
+end
+
+-- ==========================================
+-- Player Mod Functions
+-- ==========================================
 function toggleGodMode()
-    local oldState = gm4 == "✅"
-    if hookPLAYER(-4, F, oldState and 505050 or 100) then
-        gm4 = oldState and "✅" or "❌"
-        if oldState then showSuccess() else showDisabled() end
+    local isActive = (gm4 == "✅")
+    if hookPLAYER(-4, F, isActive and 100 or 505050) then
+        gm4 = isActive and "❌" or "✅"
+        if gm4 == "✅" then showSuccess() else showDisabled() end
     end
     gg.clearResults()
     playerMenu()
 end
 
 function toggleGodModeV2()
-    local oldState = gm9 == "✅"
-    if not oldState then gg.clearList() end
-    if hookPLAYER(-4, F, oldState and 9999989.0 or 100, oldState) then
-        gm9 = oldState and "✅" or "❌"
-        if oldState then showSuccess() else showDisabled() end
+    local isActive = (gm9 == "✅")
+    if isActive then gg.clearList() end
+    if hookPLAYER(-4, F, isActive and 100 or 9999989.0, not isActive) then
+        gm9 = isActive and "❌" or "✅"
+        if gm9 == "✅" then showSuccess() else showDisabled() end
     end
     playerMenu()
 end
@@ -527,54 +472,46 @@ function toggleSuicide()
 end
 
 function toggleSpeed()
-    local oldState = shv222 == "✅"
+    local isActive = (shv222 == "✅")
     Z.S("4647714816510698455", Q, Cd|O|Ca)
-    Z.W(oldState and "4489188112626352128" or "4489188110482223923", 0x18, Q)
+    Z.W(isActive and "4489188110482223923" or "4489188112626352128", 0x18, Q)
     gg.clearResults()
-    shv222 = oldState and "✅" or "❌"
-    if oldState then showSuccess() else showDisabled() end
+    shv222 = isActive and "❌" or "✅"
+    if shv222 == "✅" then showSuccess() else showDisabled() end
     playerMenu()
 end
 
 function toggleSpeedV2()
-    local oldState = mbq == "✅"
-    Z.S(oldState and "4489188110487257088" or "4489188110498131456", Q, Ca|Cd|O)
+    local isActive = (mbq == "✅")
+    Z.S(isActive and "4489188110498131456" or "4489188110487257088", Q, Ca|Cd|O)
     if #Result ~= 0 then
-        gg.editAll(oldState and "4489188110498131456" or "4489188110487257088", Q)
-        mbq = oldState and "✅" or "❌"
-        if oldState then showSuccess() else showDisabled() end
+        gg.editAll(isActive and "4489188110487257088" or "4489188110498131456", Q)
+        mbq = isActive and "❌" or "✅"
+        if mbq == "✅" then showSuccess() else showDisabled() end
     else
         showError()
     end
     gg.clearResults()
     playerMenu()
 end
-
 function toggleHighJump()
-    local enabled = hjj == "✅"
-
+    local isActive = (hjj == "✅")
     Z.S("4798022456217645875", Q, Cd|O)
-    Z.W(enabled and "-0.10000000149" or "-150", -0x4, F)
+    Z.W(isActive and "-150" or "-0.10000000149", -0x4, F)
     gg.clearResults()
 
-    hjj = enabled and "❌" or "✅"
-
-    if enabled then
-        showDisabled()
-    else
-        showSuccess()
-    end
-
+    hjj = isActive and "❌" or "✅"
+    if hjj == "✅" then showSuccess() else showDisabled() end
     playerMenu()
 end
 
 function toggleWallhack()
-    local oldState = walg == "✅"
-    Z.S(oldState and "1114636288" or "1114767360", Q, Ca|O|Cd)
+    local isActive = (walg == "✅")
+    Z.S(isActive and "1114767360" or "1114636288", Q, Ca|O|Cd)
     if #Result ~= 0 then
-        gg.editAll(oldState and "1114767360" or "1114636288", Q)
-        walg = oldState and "✅" or "❌"
-        if oldState then showSuccess() else showDisabled() end
+        gg.editAll(isActive and "1114636288" or "1114767360", Q)
+        walg = isActive and "❌" or "✅"
+        if walg == "✅" then showSuccess() else showDisabled() end
     else
         showError()
     end
@@ -583,16 +520,16 @@ function toggleWallhack()
 end
 
 function toggleFastKill()
-    local oldState = fastkil == "✅"
-    Z.S(oldState and "9187343240761165228" or "4489188110505082880", Q, Ca|O|Cd)
+    local isActive = (fastkil == "✅")
+    Z.S(isActive and "4489188110505082880" or "9187343240761165228", Q, Ca|O|Cd)
     if #Result ~= 0 then
-        gg.editAll(oldState and "4489188110505082880" or "9187343240761165228", Q)
-        Z.S(oldState and "4489188110487257088" or "4489188110499840000", Q, Ca|O|Cd)
+        gg.editAll(isActive and "9187343240761165228" or "4489188110505082880", Q)
+        Z.S(isActive and "4489188110499840000" or "4489188110487257088", Q, Ca|O|Cd)
         if #Result ~= 0 then
-            gg.editAll(oldState and "4489188110499840000" or "4489188110487257088", Q)
+            gg.editAll(isActive and "4489188110487257088" or "4489188110499840000", Q)
         end
-        fastkil = oldState and "✅" or "❌"
-        if oldState then showSuccess() else showDisabled() end
+        fastkil = isActive and "❌" or "✅"
+        if fastkil == "✅" then showSuccess() else showDisabled() end
     else
         showError()
     end
@@ -601,11 +538,11 @@ function toggleFastKill()
 end
 
 function toggleSharpTurns()
-    local oldState = whh == "✅"
-    if not oldState then gg.clearList() end
-    if hookPLAYER(28, F, oldState and "65" or "7.5", oldState) then
-        whh = oldState and "✅" or "❌"
-        if oldState then showSuccess() else showDisabled() end
+    local isActive = (whh == "✅")
+    if not isActive then gg.clearList() end
+    if hookPLAYER(28, F, isActive and "7.5" or "65", not isActive) then
+        whh = isActive and "❌" or "✅"
+        if whh == "✅" then showSuccess() else showDisabled() end
     end
     playerMenu()
 end
@@ -651,67 +588,69 @@ function flipDown()
 end
 
 function toggleGravity()
-    local oldState = graviq == "✅"
+    local isActive = (graviq == "✅")
     Z.S("-4 651 317 692 702 523 392", Q, Cd|O|Cd)
-    Z.W(oldState and "-1164854368" or "-1140649361", -0x4, D)
+    Z.W(isActive and "-1140649361" or "-1164854368", -0x4, D)
     gg.clearResults()
-    graviq = oldState and "✅" or "❌"
-    if oldState then showSuccess() else showDisabled() end
+    graviq = isActive and "❌" or "✅"
+    if graviq == "✅" then showSuccess() else showDisabled() end
     playerMenu()
 end
 
 function toggleGravityV2()
-    local oldState = graviqq == "✅"
+    local isActive = (graviqq == "✅")
     Z.S("-4 651 317 692 702 523 392", Q, Cd|O|Cd)
-    Z.W(oldState and "-1164859368" or "-1140649361", -0x4, D)
+    Z.W(isActive and "-1140649361" or "-1164859368", -0x4, D)
     gg.clearResults()
-    graviqq = oldState and "✅" or "❌"
-    if oldState then showSuccess() else showDisabled() end
+    graviqq = isActive and "❌" or "✅"
+    if graviqq == "✅" then showSuccess() else showDisabled() end
     playerMenu()
 end
 
+-- ==========================================
+-- Player Menu UI
+-- ==========================================
 function playerMenu()
     menuuuvis = 0
     local choice = gg.choice({
-        "╔══════════════════════════════════╗",
-        "║        🏃 SPEED HACK             ║" .. (shv222 == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        🏃 SPEED HACK V2          ║" .. (mbq == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        💚 GOD MODE               ║" .. (gm4 == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        💚 GOD MODE V2            ║" .. (gm9 == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        🛡️ ARMOR PACIFIER         ║" .. (gm5 == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        ❤️ RESTORE HEALTH         ║",
-        "║        💀 SUICIDE                ║",
-        "║        🧱 WALK THROUGH WALLS     ║" .. (walg == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        ⬆️ FLIP UP                ║",
-        "║        ⬇️ FLIP DOWN              ║",
-        "║        👊 FAST KILL (Fists)      ║" .. (fastkil == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        🦘 HIGH JUMP              ║" .. (hjj == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        🔄 SHARP TURNS            ║" .. (whh == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        🌎 GRAVITY V1             ║" .. (graviq == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "║        🌎 GRAVITY V2             ║" .. (graviqq == "✅" and " ✅ ACTIVE" or " ❌ INACTIVE"),
-        "╚══════════════════════════════════╝",
+        "🏃 SPEED HACK"             .. (shv222 == "✅" and "  [ON]" or ""),
+        "🏃 SPEED HACK V2"          .. (mbq == "✅" and "  [ON]" or ""),
+        "💚 GOD MODE"               .. (gm4 == "✅" and "  [ON]" or ""),
+        "💚 GOD MODE V2"            .. (gm9 == "✅" and "  [ON]" or ""),
+        "🛡️ ARMOR PACIFIER"         .. (gm5 == "✅" and "  [ON]" or ""),
+        "❤️ RESTORE HEALTH",
+        "💀 SUICIDE",
+        "🧱 WALK THROUGH WALLS"     .. (walg == "✅" and "  [ON]" or ""),
+        "⬆️ FLIP UP",
+        "⬇️ FLIP DOWN",
+        "👊 FAST KILL (Fists)"      .. (fastkil == "✅" and "  [ON]" or ""),
+        "🦘 HIGH JUMP"              .. (hjj == "✅" and "  [ON]" or ""),
+        "🔄 SHARP TURNS"            .. (whh == "✅" and "  [ON]" or ""),
+        "🌎 GRAVITY V1"             .. (graviq == "✅" and "  [ON]" or ""),
+        "🌎 GRAVITY V2"             .. (graviqq == "✅" and "  [ON]" or ""),
         "🔙 RETURN TO MAIN MENU"
-    }, nil, "╔══════════════════════════════════════════════════╗\n║               PLAYER MODS - Adil                  ║\n╚══════════════════════════════════════════════════╝")
+    }, nil, "🎯 PLAYER MODS 🎯")
     
-    if not choice then mainMenu() end
+    if not choice or choice == 16 then 
+        mainMenu()
+        return 
+    end
     
-    local actions = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17}
-    if choice == actions[1] then toggleSpeed()
-    elseif choice == actions[2] then toggleSpeedV2()
-    elseif choice == actions[3] then toggleGodMode()
-    elseif choice == actions[4] then toggleGodModeV2()
-    elseif choice == actions[5] then toggleArmor()
-    elseif choice == actions[6] then restoreHealth()
-    elseif choice == actions[7] then toggleSuicide()
-    elseif choice == actions[8] then toggleWallhack()
-    elseif choice == actions[9] then flipUp()
-    elseif choice == actions[10] then flipDown()
-    elseif choice == actions[11] then toggleFastKill()
-    elseif choice == actions[12] then toggleHighJump()
-    elseif choice == actions[13] then toggleSharpTurns()
-    elseif choice == actions[14] then toggleGravity()
-    elseif choice == actions[15] then toggleGravityV2()
-    elseif choice == actions[17] then mainMenu()
+    if choice == 1 then toggleSpeed()
+    elseif choice == 2 then toggleSpeedV2()
+    elseif choice == 3 then toggleGodMode()
+    elseif choice == 4 then toggleGodModeV2()
+    elseif choice == 5 then toggleArmor()
+    elseif choice == 6 then restoreHealth()
+    elseif choice == 7 then toggleSuicide()
+    elseif choice == 8 then toggleWallhack()
+    elseif choice == 9 then flipUp()
+    elseif choice == 10 then flipDown()
+    elseif choice == 11 then toggleFastKill()
+    elseif choice == 12 then toggleHighJump()
+    elseif choice == 13 then toggleSharpTurns()
+    elseif choice == 14 then toggleGravity()
+    elseif choice == 15 then toggleGravityV2()
     end
     menuuuvis = -1
 end
@@ -1544,8 +1483,7 @@ function managePointsMenu()
     }, nil, "╔══════════════════════════════════════════════════╗\n║              MANAGE POINTS - Adil                  ║\n╚══════════════════════════════════════════════════╝")
     
     if not choice then return tpMenu() end
-    
-    if choice == 2 then
+        if choice == 2 then
         local x, y, z = getCurrentCoords()
         if x then
             local text = string.format("X: %.2f\nY: %.2f\nZ: %.2f", x, y, z)
@@ -1937,11 +1875,11 @@ function mainMenu()
 end
 
 --╔═══════════════════════════════════════════════════════════════════╗
---║                      SCRIPT START                                 ║
+--║                      SCRIPT START                                             ║
 --╚═══════════════════════════════════════════════════════════════════╝
 
 toast.success("╔═════════════╗\n║             Adil BAJWA 👿 SCRIPT LOADED 🔥                          ╚══════════════╝", 4)
-gg.sleep(1500)
+gg.sleep(1500) 
 
 while true do
     if gg.isVisible(true) then
@@ -1953,4 +1891,7 @@ while true do
     end
     gg.sleep(100)
 end
-  
+
+
+    
+
