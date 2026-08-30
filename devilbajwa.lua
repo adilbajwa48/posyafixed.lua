@@ -1,33 +1,24 @@
 gg.setVisible(false) 
-gg.alert([[Wellcome ❤️ to Adil Bajwa 😈 English Script This script is totally free 🥳 so avoid scammers ⚔️ my discord @adilbajwa03]])
-    
---╔═════════════════════════╗
---║                                        ║
---║        █████╗ ██████╗ ██╗██╗         ██████╗  █████╗      ║
---║       ██╔══██╗██╔══██╗██║██║         ██╔══██╗██╔══██╗     ║
---║       ███████║██║  ██║██║██║         ██████╔╝███████║     ║
---║       ██╔══██║██║  ██║██║██║         ██╔══██╗██╔══██║     ║
---║       ██║  ██║██████╔╝██║███████╗  ██████╔╝██║  ██║     ║
---║       ╚═╝  ╚═╝╚═════╝ ╚═╝╚══════╝    ╚═════╝ ╚═╝  ╚═╝     ║
---║                           ║
---║   DEVIL 👿  BAJWA    ║
---║                                                                   ║
---║ CREATED BY ADIL BAJWA    ║
---║   Discord: @adilbajwa03        ║
---║                               ║
---╚═════════════════════╝
+gg.alert("Welcome to Adil Bajwa English Script. This script is free! Discord: @adilbajwa03")
+
+-- ==========================================
+--        ADIL BAJWA
+--        DEVIL BAJWA
+--        CREATED BY ADIL BAJWA
+--        Discord: @adilbajwa03
+-- ==========================================
 
 menuuuvis = 1
 gg.clearResults()
 gg.clearList()
 
---╔════════════════════════╗
---║ GLOBAL ERROR & TOAST FIX ║
---╚════════════════════════╝
+-- ==========================================
+-- GLOBAL ERROR & TOAST FIX
+-- ==========================================
 
 -- Fix missing showError function called at line 170
 function showError(msg)
-    gg.toast("❌ Error: " .. tostring(msg or "Failed execution"))
+    gg.toast("Error: " .. tostring(msg or "Failed execution"))
 end
 
 -- Fix toast object compatibility
@@ -36,6 +27,7 @@ toast = {
     hint = function(msg) gg.toast(msg) end,
     error = function(msg) gg.toast(msg) end
 }
+
 
 --╔════════════════════════╗
 --║    SPECIAL EFFECTS     ║
