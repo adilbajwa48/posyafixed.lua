@@ -1567,7 +1567,9 @@ publicPlaces = {
     {"🚗 Car Market", 878, 2236, 19},
     {"📮 Post Office", 801, 1349, 15}
 }
-
+jailbreak = { 
+    {" Go out from Jail", -644.01, 1049.21, 1208.26}
+}   
 stations = {
     {"🚌 Bus Station Arzamas", -561, 931, 12},
     {"🚌 Bus Station South", 2734, -2447, 22},
@@ -1700,6 +1702,7 @@ function showLocations(locations, title)
 end
 
 function showPublicPlaces() showLocations(publicPlaces, "╔══════════════════════════════════════════════════╗\n║                PUBLIC PLACES - Adil               ║\n╚══════════════════════════════════════════════════╝") end
+function showjailbreak() showLocations(jailbreak, "╔══════════════════════════════════════════════════╗\n║                JAIL BREAK - Adil               ║\n╚══════════════════════════════════════════════════╝") end
 function showStations() showLocations(stations, "╔══════════════════════════════════════════════════╗\n║                  STATIONS - Adil                  ║\n╚══════════════════════════════════════════════════╝") end
 function showParking() showLocations(parking, "╔══════════════════════════════════════════════════╗\n║               PARKING LOTS - Adil                 ║\n╚══════════════════════════════════════════════════╝") end
 function showGovernment() showLocations(government, "╔══════════════════════════════════════════════════╗\n║               GOVERNMENT - Adil                   ║\n╚══════════════════════════════════════════════════╝") end
@@ -1717,41 +1720,43 @@ function showQuarries() showLocations(quarries, "╔═════════�
 function teleportByFootMenu()
     menuuuvis = 0
     local choice = gg.choice({
-        "╔══════════════════════════════════╗",
-        "║        🏢 PUBLIC PLACES          ║",
-        "║        🚉 STATIONS               ║",
-        "║        🅿️ PARKING LOTS          ║",
-        "║        👮 GOVERNMENT             ║",
-        "║        🕵️ CRIMINAL              ║",
-        "║        🔰 STARTER JOBS           ║",
-        "║        💼 JOBS                   ║",
-        "║        🎉 ENTERTAINMENT          ║",
-        "║        🎁Airdrop BY Adil          ║",
-        "║        🚁 HELI CLUBS             ║",
-        "║        💰 BUYERS                 ║",
-        "║        💵 BUSINESSES             ║",
-        "║        ⛏️ QUARRIES               ║",
-        "║        📍 MY POINTS              ║",
-        "╚══════════════════════════════════╝",
+        "╔═══════════════════════════╗",
+        "║        🏢 PUBLIC PLACES        ║",
+        "║        🛂 JAIL BREAK           ║",
+        "║        🚉 STATIONS             ║",
+        "║        🅿️ PARKING LOTS         ║",
+        "║        👮 GOVERNMENT           ║",
+        "║        🕵️ CRIMINAL             ║",
+        "║        🔰 STARTER JOBS         ║",
+        "║        💼 JOBS                 ║",
+        "║        🎉 ENTERTAINMENT        ║",
+        "║        🎁Airdrop BY Adil       ║",
+        "║        🚁 HELI CLUBS           ║",
+        "║        💰 BUYERS               ║",
+        "║        💵 BUSINESSES           ║",
+        "║        ⛏️ QUARRIES             ║",
+        "║        📍 MY POINTS            ║",
+        "╚═══════════════════════════╝",
         "🔙 BACK"
     }, nil, "╔══════════════════════════════════════════════════╗\n║            TELEPORT BY FOOT - Adil                 ║\n╚══════════════════════════════════════════════════╝")
     
     if not choice then tpMenu() end
     if choice == 2 then showPublicPlaces()
-    elseif choice == 3 then showStations()
-    elseif choice == 4 then showParking()
-    elseif choice == 5 then showGovernment()
-    elseif choice == 6 then showCriminal()
-    elseif choice == 7 then showStarterJobs()
-    elseif choice == 8 then showJobs()
-    elseif choice == 9 then showEntertainment()
-    elseif choice == 10 then showAirdropAdil()
-    elseif choice == 11 then showHeliClubs()
-    elseif choice == 12 then showBuyers()
-    elseif choice == 13 then showBusinesses()
-    elseif choice == 14 then showQuarries()
-    elseif choice == 15 then viewSavedPoints()
-    elseif choice == 16 then tpMenu()
+    elseif choice == 3 then showjailbreak()
+    elseif choice == 4 then showStations()
+    elseif choice == 5 then showParking()
+    elseif choice == 6 then showGovernment()
+    elseif choice == 7 then showCriminal()
+    elseif choice == 8 then showStarterJobs()
+    elseif choice == 9 then showJobs()
+    elseif choice == 10 then showEntertainment()
+    elseif choice == 11 then showAirdropAdil()
+    elseif choice == 12 then showHeliClubs()
+    elseif choice == 13 then showBuyers()
+    elseif choice == 14 then showBusinesses()
+    elseif choice == 15 then showQuarries()
+    elseif choice == 16 then viewSavedPoints()
+    elseif choice == 17 then tpMenu()
     end
     menuuuvis = -1
 end
@@ -1777,10 +1782,9 @@ function tpMenu()
     end
     menuuuvis = -1
 end
-
---╔═══════════════════════════════════════════════════════════════════╗
---║                    DEV & SUPPORT                                   ║
---╚═══════════════════════════════════════════════════════════════════╝
+--╔═════════════╗
+--║  DEV          ║
+-═══════════════╝
 
 function devMenu()
     local choice = gg.choice({
