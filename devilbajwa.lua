@@ -1,7 +1,6 @@
-gg.setVisible(false)
-
-gg.alert("Wellcome ❤️ to Adil Bajwa 👿 English Script This script is totally free 🎉 so avoid scammers ☠️ my discord @adilbajwa03" ) 
-
+gg.setVisible(false) 
+gg.alert([[Wellcome ❤️ to Adil Bajwa 😈 English Script This script is totally free 🥳 so avoid scammers ⚔️ my discord @adilbajwa03]])
+    
 --╔═════════════════════════╗
 --║                                        ║
 --║        █████╗ ██████╗ ██╗██╗         ██████╗  █████╗      ║
