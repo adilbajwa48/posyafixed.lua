@@ -1764,7 +1764,7 @@ function tpMenu()
         "🔙 BACK"
     }, nil, "╔══════════════════════════════════════════════════╗\n║                TELEPORT - Adil                     ║\n╚══════════════════════════════════════════════════╝")
     
-    if not choice then mainMenu() end
+  if not choice then mainMenu() end
     if choice == 2 then teleportByCoords()
     elseif choice == 3 then teleportByMarker()
     elseif choice == 4 then teleportByFootMenu()
@@ -1773,9 +1773,10 @@ function tpMenu()
     end
     menuuuvis = -1
 end
+
 --╔═════════════╗
---║  DEV          ║
--═══════════════╝
+--║  DEV        ║
+--╚═════════════╝
 
 function devMenu()
     local choice = gg.choice({
@@ -1798,6 +1799,7 @@ function devMenu()
     end
     devMenu()
 end
+
 
 function supportMenu()
     local choice = gg.choice({
